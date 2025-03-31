@@ -1,0 +1,10 @@
+on:
+  check_run:
+    types: [completed]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set output
+        run: |
+          echo ${{ github.event.check_run }}
