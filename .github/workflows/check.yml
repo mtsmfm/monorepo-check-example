@@ -1,10 +1,11 @@
 on:
-  check_run:
+  workflow_run:
     types: [completed]
+    workflows: ["*"]
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
       - name: Set output
         run: |
-          echo ${{ github.event.check_run }}
+          echo ${{ github.event.workflow_run.pull_requests }}
