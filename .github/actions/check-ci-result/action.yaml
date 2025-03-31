@@ -1,0 +1,19 @@
+name: "Check CI result"
+
+inputs:
+  status_context:
+    description: "The context for the status check"
+    required: true
+    default: "ci-result-check"
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/github-script@v7
+      with:
+        script: |
+          return await require('${{ github.action_path }}/script.js')({ github, context })
+        result-encoding: string
+        github-token: ${{ github.token }}
+      env:
+        STATUS_CONTEXT: ${{ inputs.status_context }}
