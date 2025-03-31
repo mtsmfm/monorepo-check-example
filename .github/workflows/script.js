@@ -15,9 +15,11 @@ module.exports = async ({ github, context }) => {
     repo: context.repo.repo,
   });
 
-  if (
-    listSuites.data.check_suites.every((suite) => suite.status === "completed")
-  ) {
+  const notCompletedSuites = listSuites.data.check_suites.filter(
+    (suite) => suite.status !== "completed"
+  );
+
+  if (notCompletedSuites.length === 0) {
     const sha = context.payload.workflow_run.head_sha;
 
     await github.rest.checks.create({
@@ -32,5 +34,8 @@ module.exports = async ({ github, context }) => {
         ? "success"
         : "failure",
     });
+  } else {
+    console.log("Not all suites are completed");
+    console.log(notCompletedSuites.map((s) => s.url));
   }
 };
