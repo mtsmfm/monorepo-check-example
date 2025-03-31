@@ -1,0 +1,18 @@
+name: No Failed CI Gatekeeper
+
+on:
+  workflow_run:
+    types: [completed]
+    workflows: ["*"]
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  statuses: write
+
+jobs:
+  run-gatekeeper:
+    if: github.event_name == 'pull_request_review' || github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mtsmfm/no-failed-ci-gatekeeper@main

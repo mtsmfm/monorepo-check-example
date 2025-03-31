@@ -1,0 +1,10 @@
+name: Foo Workflow
+on:
+  pull_request:
+    paths:
+      - "foo/**"
+jobs:
+  dummy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Foo workflow executed."
