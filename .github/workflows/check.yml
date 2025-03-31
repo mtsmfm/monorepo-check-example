@@ -8,4 +8,4 @@ jobs:
     steps:
       - name: Set output
         run: |
-          echo ${{ github.event.workflow_run.pull_requests }}
+          echo ${{ toJson(github.event.workflow_run.pull_requests) }}
