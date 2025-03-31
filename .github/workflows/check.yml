@@ -4,8 +4,15 @@ on:
     workflows: ["*"]
 jobs:
   check:
+    if: toJson(github.event.workflow_run.pull_requests) != '[]'
     runs-on: ubuntu-latest
     steps:
       - name: Set output
         run: |
-          echo ${{ toJson(github.event.workflow_run.pull_requests) }}
+          echo "${{ toJson(github) }}"
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            return await require('./.github/workflows/script.js')({ github, context })
+          result-encoding: string
+          github-token: ${{ secrets.GITHUB_TOKEN }}
