@@ -9,10 +9,28 @@
 
 /** @type {(arg: { github: { rest: OctokitClient }, context: WorkflowRunContext }) => Promise<void>} */
 module.exports = async ({ github, context }) => {
-  const result = await github.rest.checks.listSuitesForRef({
-    ref: context.ref,
+  const listSuites = await github.rest.checks.listSuitesForRef({
+    ref: context.payload.workflow_run.head_branch,
     owner: context.repo.owner,
     repo: context.repo.repo,
   });
-  console.dir(result, { depth: null });
+
+  if (
+    listSuites.data.check_suites.every((suite) => suite.status === "completed")
+  ) {
+    const sha = context.payload.workflow_run.head_sha;
+
+    await github.rest.checks.create({
+      head_sha: sha,
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      name: "CI status",
+      status: "completed",
+      conclusion: listSuites.data.check_suites.every(
+        (suite) => suite.conclusion === "success"
+      )
+        ? "success"
+        : "failure",
+    });
+  }
 };

@@ -4,7 +4,7 @@ on:
     workflows: ["*"]
 jobs:
   check:
-    if: toJson(github.event.workflow_run.pull_requests) != '[]'
+    if: github.event.workflow_run.event == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
