@@ -9,17 +9,17 @@
 
 /** @type {(arg: { github: { rest: OctokitClient }, context: WorkflowRunContext }) => Promise<void>} */
 module.exports = async ({ github, context }) => {
-  const listSuites = await github.rest.checks.listSuitesForRef({
+  const checks = await github.rest.checks.listForRef({
     ref: context.payload.workflow_run.head_branch,
     owner: context.repo.owner,
     repo: context.repo.repo,
   });
 
-  const notCompletedSuites = listSuites.data.check_suites.filter(
+  const notCompletedRuns = checks.data.check_runs.filter(
     (suite) => suite.status !== "completed"
   );
 
-  if (notCompletedSuites.length === 0) {
+  if (notCompletedRuns.length === 0) {
     const sha = context.payload.workflow_run.head_sha;
 
     await github.rest.checks.create({
@@ -28,14 +28,14 @@ module.exports = async ({ github, context }) => {
       repo: context.repo.repo,
       name: "CI status",
       status: "completed",
-      conclusion: listSuites.data.check_suites.every(
+      conclusion: checks.data.check_runs.every(
         (suite) => suite.conclusion === "success"
       )
         ? "success"
         : "failure",
     });
   } else {
-    console.log("Not all suites are completed");
-    console.log(notCompletedSuites.map((s) => s.url));
+    console.log("Not all runs are completed");
+    console.log(notCompletedRuns.map((s) => s.url));
   }
 };
