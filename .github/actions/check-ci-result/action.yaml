@@ -1,0 +1,12 @@
+name: "Check CI result"
+
+runs:
+  using: composite
+  pre-if: github.event.workflow_run.event == 'pull_request'
+  steps:
+    - uses: actions/github-script@v7
+      with:
+        script: |
+          return await require('./script.js')({ github, context })
+        result-encoding: string
+        github-token: ${{ env.GITHUB_TOKEN }}

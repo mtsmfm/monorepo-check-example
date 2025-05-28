@@ -1,0 +1,16 @@
+name: "Check CI result"
+
+on:
+  workflow_run:
+    types: [completed]
+    workflows: ["*"]
+permissions:
+  checks: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/check-ci-result
+        env:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
