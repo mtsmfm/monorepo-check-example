@@ -12,5 +12,3 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/check-ci-result
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
