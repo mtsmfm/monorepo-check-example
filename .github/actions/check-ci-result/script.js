@@ -22,13 +22,11 @@ module.exports = async ({ github, context }) => {
   if (notCompletedRuns.length === 0) {
     const sha = context.payload.workflow_run.head_sha;
 
-    await github.rest.checks.create({
-      head_sha: sha,
+    await github.rest.repos.createCommitStatus({
       owner: context.repo.owner,
       repo: context.repo.repo,
-      name: "CI status",
-      status: "completed",
-      conclusion: checks.data.check_runs.every(
+      sha,
+      state: checks.data.check_runs.every(
         (suite) => suite.conclusion === "success"
       )
         ? "success"
