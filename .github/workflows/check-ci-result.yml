@@ -4,6 +4,8 @@ on:
   workflow_run:
     types: [completed]
     workflows: ["*"]
+  pull_request_review:
+    types: [submitted]
 permissions:
   checks: write
   statuses: write
