@@ -26,6 +26,7 @@ module.exports = async ({ github, context }) => {
       owner: context.repo.owner,
       repo: context.repo.repo,
       sha,
+      context: "foo bar",
       state: checks.data.check_runs.every(
         (suite) => suite.conclusion === "success"
       )
