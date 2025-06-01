@@ -48,7 +48,7 @@ module.exports = async ({ github, context }) => {
           repo: context.repo.repo,
           sha,
           context: statusContext,
-          description: `Executed via ${context.serverUrl}/${context.repo}/actions/runs/${context.runId}`,
+          description: `Executed via ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
           state: checks.data.check_runs.every(
             (suite) => suite.conclusion === "success"
           )
