@@ -17,6 +17,7 @@ module.exports = async ({ github, context }) => {
     repo: context.repo.repo,
   });
   const allRuns = checks.data.check_runs;
+  console.dir(allRuns, { depth: null });
   const notCompletedRuns = allRuns.filter(
     (suite) => suite.status !== "completed"
   );
