@@ -14,7 +14,7 @@ module.exports = async ({ github, context }) => {
   const sha = context.payload.workflow_run?.head_sha || context.sha;
   const statusContext = process.env.STATUS_CONTEXT;
   const checks = await github.rest.checks.listForRef({
-    ref: context.payload.workflow_run.head_branch,
+    ref: sha,
     owner: context.repo.owner,
     repo: context.repo.repo,
   });
