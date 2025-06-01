@@ -19,7 +19,6 @@ module.exports = async ({ github, context }) => {
     repo: context.repo.repo,
   });
   const allRuns = checks.data.check_runs;
-  console.log(allRuns, { depth: null });
   const notCompletedRuns = allRuns.filter(
     (suite) => suite.status !== "completed"
   );
@@ -49,6 +48,7 @@ module.exports = async ({ github, context }) => {
           repo: context.repo.repo,
           sha,
           context: statusContext,
+          description: `Executed via ${context.serverUrl}/${context.repo}/actions/runs/${context.runId}`,
           state: checks.data.check_runs.every(
             (suite) => suite.conclusion === "success"
           )
