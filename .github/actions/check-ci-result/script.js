@@ -9,6 +9,8 @@
 
 /** @type {(arg: { github: { rest: OctokitClient }, context: WorkflowRunContext }) => Promise<void>} */
 module.exports = async ({ github, context }) => {
+  console.log("Running check-ci-result action");
+
   const sha = context.payload.workflow_run?.head_sha || context.sha;
   const statusContext = process.env.STATUS_CONTEXT;
   const checks = await github.rest.checks.listForRef({
