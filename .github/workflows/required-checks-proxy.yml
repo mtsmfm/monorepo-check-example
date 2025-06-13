@@ -1,7 +1,10 @@
 name: No Failed CI Gatekeeper
 
 on:
-  check_suite:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_run:
+    workflows: ["*"]
     types: [completed]
   pull_request_review:
     types: [submitted]
