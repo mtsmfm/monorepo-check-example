@@ -15,4 +15,4 @@ jobs:
     if: github.event_name == 'pull_request_review' || github.event.workflow_run.event == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: mtsmfm/no-failed-ci-gatekeeper@main
+      - uses: mtsmfm/no-failed-ci-gatekeeper@ai-wip
